@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Button,
     StyleSheet,
@@ -8,7 +8,7 @@ import {
     Alert,
 } from "react-native";
 
-export const AddTodo = ({ handleAddTodo }) => {
+export const AddTodo = ({ handleAddTodo, isEdit, editText }) => {
     const [todo, setTodo] = useState("");
     const handleChange = (text) => {
         setTodo(text);
@@ -26,6 +26,12 @@ export const AddTodo = ({ handleAddTodo }) => {
             ]);
         }
     };
+    useEffect(() => {
+        if (isEdit) {
+            setTodo(editText.name);
+        }
+        return () => setTodo("");
+    }, [isEdit]);
     return (
         <View style={styles.main}>
             <TextInput

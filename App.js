@@ -19,10 +19,27 @@ export default function App() {
         { name: "Play Chess", key: "3" },
     ]);
 
+    const [isEdit, setIsEdit] = useState(false);
+    const [editText, setEditText] = useState({});
+
     const handleAddTodo = (text) => {
-        setTodos((prev) => {
-            return [...prev, { name: text, key: Math.random() }];
-        });
+        if (!isEdit) {
+            setTodos((prev) => {
+                return [...prev, { name: text, key: Math.random() }];
+            });
+        } else {
+            setTodos((prev) => {
+                const prevData = prev.filter(
+                    (item) => item.key !== editText.key
+                );
+                return [...prevData, { name: text, key: editText.key }];
+            });
+            setIsEdit(false);
+        }
+    };
+
+    const handleDelete = (key) => {
+        setTodos((prev) => prev.filter((item) => item.key !== key));
     };
 
     return (
@@ -34,10 +51,23 @@ export default function App() {
             <View style={styles.container}>
                 <Header />
                 <View style={styles.main}>
-                    <AddTodo handleAddTodo={handleAddTodo} />
+                    <AddTodo
+                        handleAddTodo={handleAddTodo}
+                        isEdit={isEdit}
+                        editText={editText}
+                        setEditText={setEditText}
+                    />
                     <FlatList
                         data={todos}
-                        renderItem={({ item }) => <TodoItem item={item} />}
+                        renderItem={({ item }) => (
+                            <TodoItem
+                                item={item}
+                                handleDelete={handleDelete}
+                                setEditText={setEditText}
+                                setIsEdit={setIsEdit}
+                                isEdit={isEdit}
+                            />
+                        )}
                     />
                 </View>
             </View>
