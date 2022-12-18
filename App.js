@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import {
+    Button,
+    FlatList,
+    StyleSheet,
+    Text,
+    View,
+    TouchableWithoutFeedback,
+    Keyboard,
+} from "react-native";
 import { AddTodo } from "./components/AddTodo";
 import { Header } from "./components/Header";
 import { TodoItem } from "./components/TodoItem";
@@ -18,15 +26,22 @@ export default function App() {
     };
 
     return (
-        <View style={styles.container}>
-            <Header />
-            <View style={styles.main}>
-                <AddTodo handleAddTodo={handleAddTodo} />
-                {todos.map((item, index) => (
-                    <TodoItem key={index} item={item} />
-                ))}
+        <TouchableWithoutFeedback
+            onPress={() => {
+                Keyboard.dismiss();
+            }}
+        >
+            <View style={styles.container}>
+                <Header />
+                <View style={styles.main}>
+                    <AddTodo handleAddTodo={handleAddTodo} />
+                    <FlatList
+                        data={todos}
+                        renderItem={({ item }) => <TodoItem item={item} />}
+                    />
+                </View>
             </View>
-        </View>
+        </TouchableWithoutFeedback>
     );
 }
 
@@ -34,8 +49,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#fff",
-        // alignItems: "center",
-        // justifyContent: "center ",
+        marginTop: 25,
     },
     main: {
         flex: 1,

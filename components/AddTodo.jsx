@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Button, StyleSheet, TextInput, View } from "react-native";
+import {
+    Button,
+    StyleSheet,
+    TextInput,
+    View,
+    Keyboard,
+    Alert,
+} from "react-native";
 
 export const AddTodo = ({ handleAddTodo }) => {
     const [todo, setTodo] = useState("");
@@ -7,8 +14,17 @@ export const AddTodo = ({ handleAddTodo }) => {
         setTodo(text);
     };
     const handlePress = () => {
-        handleAddTodo(todo);
-        setTodo("");
+        if (todo.length > 3) {
+            handleAddTodo(todo);
+            setTodo("");
+            Keyboard.dismiss();
+        } else {
+            Alert.alert("OPSS!!!", "Todo's must be over 3 characters long", [
+                {
+                    text: "CLOSE",
+                },
+            ]);
+        }
     };
     return (
         <View style={styles.main}>

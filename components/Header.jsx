@@ -11,8 +11,7 @@ export const Header = () => {
 
 const styles = StyleSheet.create({
     header: {
-        height: 60,
-        textAlign: "center",
+        height: 50,
         backgroundColor: "coral",
         paddingTop: 10,
     },
@@ -20,5 +19,6 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: "bold",
         color: "#fff",
+        textAlign: "center",
     },
 });
